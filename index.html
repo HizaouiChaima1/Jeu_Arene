@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arène des Légendes</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="stylede.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Écran d'accueil -->
+        <div id="welcome-screen" class="screen">
+            <h1>ARÈNE DES LÉGENDES</h1>
+            <div class="welcome-content">
+                <button id="start-game-btn">Commencer la partie</button>
+            </div>
+        </div>
+        <!-- Sélection des héros -->
+        <div id="hero-selection" class="screen" style="display:none">
+            <h2>CHOISISSEZ VOTRE HÉRO 1</h2>
+            <div class="hero-options">
+                <div class="hero-option" data-hero="knight">
+                    <div class="hero-preview knight">♞</div>
+                    <h3>Chevalier</h3>
+                    <button class="select-hero-btn" data-hero="knight" data-player="1">Sélectionner</button>
+                </div>
+
+                <div class="hero-option" data-hero="ninja">
+                    <div class="hero-preview ninja">🥷</div>
+                    <h3>Ninja</h3>
+                    <button class="select-hero-btn" data-hero="ninja" data-player="1">Sélectionner</button>
+                </div>
+
+                <div class="hero-option" data-hero="wizard">
+                    <div class="hero-preview wizard">🧙</div>
+                    <h3>Sorcier</h3>
+                    <button class="select-hero-btn" data-hero="wizard" data-player="1">Sélectionner</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="hero-selection-2" class="screen" style="display:none">
+            <h2>CHOISISSEZ VOTRE HÉRO 2</h2>
+            <div class="hero-options">
+                <div class="hero-option" data-hero="knight">
+                    <div class="hero-preview knight">♞</div>
+                    <h3>Chevalier</h3>
+                    <button class="select-hero-btn" data-hero="knight" data-player="2">Sélectionner</button>
+                </div>
+
+                <div class="hero-option" data-hero="ninja">
+                    <div class="hero-preview ninja">🥷</div>
+                    <h3>Ninja</h3>
+                    <button class="select-hero-btn" data-hero="ninja" data-player="2">Sélectionner</button>
+                </div>
+
+                <div class="hero-option" data-hero="wizard">
+                    <div class="hero-preview wizard">🧙</div>
+                    <h3>Sorcier</h3>
+                    <button class="select-hero-btn" data-hero="wizard" data-player="2">Sélectionner</button>
+                </div>
+            </div>
+        </div>
+        <!-- choix de hero qui va commencer -->
+        <div id="dice-screen" style="display:none;" class="dice-container">
+            <div class="dice" id="dice">
+                <!-- Face 1 (front) -->
+                <div class="face front">
+                    <div class="dot" style="top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+                </div>
+                <!-- Face 2 (back) -->
+                <div class="face back">
+                    <div class="dot" style="top: 25%; left: 25%;"></div>
+                    <div class="dot" style="bottom: 25%; right: 25%;"></div>
+                </div>
+                <!-- Face 3 (right) -->
+                <div class="face right">
+                    <div class="dot" style="top: 25%; left: 25%;"></div>
+                    <div class="dot" style="top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+                    <div class="dot" style="bottom: 25%; right: 25%;"></div>
+                </div>
+                <!-- Face 4 (left) -->
+                <div class="face left">
+                    <div class="dot" style="top: 25%; left: 25%;"></div>
+                    <div class="dot" style="top: 25%; right: 25%;"></div>
+                    <div class="dot" style="bottom: 25%; left: 25%;"></div>
+                    <div class="dot" style="bottom: 25%; right: 25%;"></div>
+                </div>
+                <!-- Face 5 (top) -->
+                <div class="face top">
+                    <div class="dot" style="top: 25%; left: 25%;"></div>
+                    <div class="dot" style="top: 25%; right: 25%;"></div>
+                    <div class="dot" style="top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+                    <div class="dot" style="bottom: 25%; left: 25%;"></div>
+                    <div class="dot" style="bottom: 25%; right: 25%;"></div>
+                </div>
+                <!-- Face 6 (bottom) -->
+                <div class="face bottom">
+                    <div class="dot" style="top: 25%; left: 25%;"></div>
+                    <div class="dot" style="top: 25%; right: 25%;"></div>
+                    <div class="dot" style="top: 25%; left: 50%; transform: translate(-50%, 0);"></div>
+                    <div class="dot" style="bottom: 25%; left: 25%;"></div>
+                    <div class="dot" style="bottom: 25%; right: 25%;"></div>
+                    <div class="dot" style="bottom: 25%; left: 50%; transform: translate(-50%, 0);"></div>
+                </div>
+            </div>
+            <div class="result" id="result"></div>
+            <div class="player-info" id="playerInfo"></div>
+            <script>
+                function toggleDarkMode() {
+                    isDarkMode = !isDarkMode;
+
+                    if (isDarkMode) {
+                        document.body.style.backgroundColor = '#121212';
+                        document.body.style.color = '#e0e0e0';
+                        document.querySelectorAll('.face').forEach(face => {
+                            face.style.backgroundColor = '#1e1e1e';
+                            face.style.borderColor = '#444';
+                        });
+                        document.querySelectorAll('.dot').forEach(dot => {
+                            dot.style.backgroundColor = 'gold';
+                            dot.style.boxShadow = '0 0 5px rgba(255, 215, 0, 0.7)';
+                        });
+                        resultDisplay.style.color = 'gold';
+                        toggleDarkBtn.textContent = 'Mode Clair';
+                    } else {
+                        document.body.style.backgroundColor = '#f0f0f0';
+                        document.body.style.color = '#333';
+                        document.querySelectorAll('.face').forEach(face => {
+                            face.style.backgroundColor = 'white';
+                            face.style.borderColor = '#333';
+                        });
+                        document.querySelectorAll('.dot').forEach(dot => {
+                            dot.style.backgroundColor = 'gold';
+                            dot.style.boxShadow = 'none';
+                        });
+                        resultDisplay.style.color = 'gold';
+                        toggleDarkBtn.textContent = 'Mode Sombre';
+                    }
+                }
+            </script>
+        </div>
+        <!-- Arène de combat -->
+        <div id="arena-container" class="screen" style="display:none">
+            <div class="arena-header">
+                <h2>ARÈNE DE COMBAT</h2>
+                <div id="turn-indicator">
+                    <span id="current-player"></span>
+                </div>
+            </div>
+
+            <div class="arena-layout">
+                <!-- Contrôles joueur 1 à gauche -->
+                <div class="player-controls player1-controls">
+                    <h3>Joueur 1</h3>
+                    <div class="action-panel">
+                        <div class="action-category">
+                            <button id="fast-attack-btn-1" class="action-btn">
+                                <span class="action-icon">⚡</span>
+                                <span class="action-label">Attaque Rapide</span>
+                            </button>
+                        </div>
+                        <div class="action-category">
+                            <button id="heavy-attack-btn-1" class="action-btn">
+                                <span class="action-icon">💥</span>
+                                <span class="action-label">Attaque Lourde</span>
+                            </button>
+                        </div>
+                        <div class="action-category">
+                            <button id="special-btn-1" class="action-btn special-action">
+                                <span class="action-icon">✨</span>
+                                <span class="action-label">Pouvoir Spécial</span>
+                            </button>
+                        </div>
+                        <div class="action-category">
+                            <button id="defend-btn-1" class="action-btn defensive-action">
+                                <span class="action-icon">🛡️</span>
+                                <span class="action-label">Défendre</span>
+                            </button>
+                        </div>
+                        <div class="action-category">
+                            <button id="dodge-btn-1" class="action-btn">
+                                <span class="action-icon">🌀</span>
+                                <span class="action-label">Esquiver</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grille de jeu au centre -->
+                <div class="arena-grid-container">
+                    <div id="arena-grid"></div>
+                </div>
+
+                <!-- Contrôles joueur 2 à droite -->
+                <div class="player-controls player2-controls">
+                    <h3>Joueur 2</h3>
+                    <div class="action-panel">
+                        <div class="action-category">
+                            <button id="fast-attack-btn-2" class="action-btn">
+                                <span class="action-icon">⚡</span>
+                                <span class="action-label">Attaque Rapide</span>
+                            </button>
+                        </div>
+                        <div class="action-category">
+                            <button id="heavy-attack-btn-2" class="action-btn">
+                                <span class="action-icon">💥</span>
+                                <span class="action-label">Attaque Lourde</span>
+                            </button>
+                        </div>
+                        <div class="action-category">
+                            <button id="special-btn-2" class="action-btn special-action">
+                                <span class="action-icon">✨</span>
+                                <span class="action-label">Pouvoir Spécial</span>
+                            </button>
+                        </div>
+                        <div class="action-category">
+                            <button id="defend-btn-2" class="action-btn defensive-action">
+                                <span class="action-icon">🛡️</span>
+                                <span class="action-label">Défendre</span>
+                            </button>
+                        </div>
+                        <div class="action-category">
+                            <button id="dodge-btn-2" class="action-btn">
+                                <span class="action-icon">🌀</span>
+                                <span class="action-label">Esquiver</span>
+                            </button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contrôles communs en bas -->
+            <div class="common-controls">
+                <div class="action-dice-container" id="actionDiceContainer">
+                    <div class="action-dice-result" id="actionDiceResult"></div>
+                    <div class="action-dice-circle" id="actionDiceButton">
+                        <i class="fas fa-dice action-dice-icon">🎲</i>
+                    </div>
+                </div>
+            </div>
+            <!-- Ajoutez cette section après l'arène ou là où vous voulez afficher les stats -->
+            <div id="player-stats" class="player-stats-container">
+                <!-- Les stats seront générées dynamiquement en JS -->
+            </div>
+
+            <!-- Modifiez votre affichage du gagnant pour qu'il soit plus visible -->
+            <div id="winner-display" class="winner-display">
+                <div id="winner-message"></div>
+            </div>
+             <button id="restart-game-btn" style="display:none">Rejouer</button>
+
+        </div>
+        <script src="logique.js"></script>
+</body>
+</html>

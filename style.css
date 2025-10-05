@@ -1,0 +1,808 @@
+/* Reset CSS global pour uniformiser les styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Style de base du body avec font médiévale et couleurs sombres */
+body {
+  font-family: 'MedievalSharp', cursive;
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+/*  LAYOUT PRINCIPAL ET CONTENEURS */
+
+/* Conteneur principal du jeu avec disposition horizontale */
+#game-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  overflow: visible;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+/* Wrapper de l'arène avec disposition flexible */
+.arena-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Layout de combat avec trois zones (contrôles - arène - contrôles) */
+.arena-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 70vh;
+  gap: 20px;
+}
+
+/* ÉCRANS ET TRANSITIONS */
+
+/* Style de base pour tous les écrans avec effet de transition */
+.screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 900px;
+  padding: 2rem;
+  margin: 0 auto;
+  background-color: rgba(44, 62, 80, 0.9);
+  border-radius: 15px;
+  border: 3px solid #f1c40f;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+
+  /* Transition d'apparition */
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* État actif des écrans */
+.screen.active {
+  opacity: 1;
+  transform: translateY(0);
+  display: flex;
+}
+
+/* Contenu des écrans d'accueil et de fin */
+.welcome-content,
+#end-game-screen {
+  text-align: center;
+  padding: 2rem;
+}
+
+/*  TITRES ET TEXTES PRINCIPAUX */
+
+/* Titres principaux des écrans d'accueil et de fin */
+#welcome-screen h1,
+#end-game-screen h2 {
+  font-size: 3.5rem;
+  color: #f1c40f;
+  text-shadow: 3px 3px 0 #000;
+  margin-bottom: 1rem;
+}
+
+/* Titres de sélection des héros et d'arène */
+#hero-selection h2,
+.arena-header h2 {
+  font-size: 2.5rem;
+  color: #f1c40f;
+  text-shadow: 2px 2px 0 #000;
+  margin-bottom: 1.5rem;
+}
+
+/* Titre spécifique au joueur 2 (couleur bleue) */
+#hero-selection-2 h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #3498db;
+  text-shadow: 2px 2px 0 #000;
+}
+
+/* Affichage du gagnant */
+#winner-display {
+  font-size: 2rem;
+  margin: 2rem 0;
+  color: white;
+  text-shadow: 2px 2px 0 #000;
+}
+
+/* SÉLECTION DES HÉROS */
+
+/* Masquage initial de la sélection joueur 2 */
+#hero-selection-2 {
+  display: none;
+}
+
+/* Conteneur des options de héros */
+.hero-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* Carte individuelle de héros */
+.hero-option {
+  width: 250px;
+  padding: 1.5rem;
+  border: 3px solid #f1c40f;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  text-align: center;
+  transition: all 0.3s;
+}
+
+/* Effet hover sur les cartes de héros */
+.hero-option:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Aperçu visuel du héros (cercle coloré) */
+.hero-preview {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  border: 3px solid white;
+}
+
+/* Thèmes visuels des différents héros */
+.knight {
+  background: linear-gradient(135deg, #8B4513, #A0522D);
+}
+
+.ninja {
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+}
+
+.wizard {
+  background: linear-gradient(135deg, #6A0DAD, #9b59b6);
+}
+
+/*  GRILLE D'ARÈNE ET CELLULES */
+
+/* Conteneur de l'arène (ordre 2 dans le layout) */
+#arena-container {
+  order: 2;
+  flex: 1;
+  max-width: 3000px;
+  width: 150%;
+}
+
+/* Conteneur centré de la grille */
+.arena-grid-container {
+  order: 2;
+  flex-grow: 1;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Grille de combat 7x7 */
+#arena-grid {
+  width: 500px;
+  height: 500px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  gap: 2px;
+  background-color: #333;
+  border: 3px solid #f1c40f;
+}
+
+/* Cellules individuelles de la grille */
+.cell {
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+/* Effet hover sur les cellules */
+.cell:hover {
+  background-color: #c9c9c9;
+}
+
+/* Cellules obstacles (murs) */
+.obstacle {
+  background-color: #5a3921 !important;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%234a331f"/><rect x="15" y="15" width="70" height="70" fill="%236b4f3a" rx="5" ry="5"/></svg>') !important;
+}
+
+/* Cellules bonus (avec animation pulse) */
+.bonus {
+  background-color: #f8f8d0 !important;
+  animation: pulse 2s infinite;
+}
+
+/* HÉROS SUR LA GRILLE */
+
+/* Apparence des héros sur la grille */
+.hero {
+  width: 85%;
+  height: 85%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  border: 2px solid white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s;
+  position: relative;
+}
+
+/* Barre de vie sous chaque héros */
+.health-bar {
+  position: absolute;
+  bottom: -12px;
+  left: 5%;
+  width: 90%;
+  height: 8px;
+  background-color: #444;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Remplissage de la barre de vie */
+.health-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #e74c3c, #c0392b);
+  transition: width 0.3s;
+}
+
+/* CONTRÔLES ET ACTIONS */
+
+/* Conteneur principal des contrôles (ordre 1 dans le layout) */
+#game-controls {
+  order: 1;
+  flex: 1;
+  max-width: 400px;
+  position: sticky;
+  top: 20px;
+}
+
+/* Contrôles des joueurs individuels */
+.player-controls {
+  width: 20%;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.player1-controls {
+  order: 1;
+}
+
+.player2-controls {
+  order: 3;
+}
+
+/* Contrôles communs (centre) */
+.common-controls {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Panel d'actions principal */
+#action-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 2px solid #f1c40f;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Groupe d'actions en grille 2x2 */
+.action-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Panel d'actions alternatif */
+.action-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* BOUTONS */
+
+/* Style de base pour tous les boutons */
+button,
+.action-btn,
+.select-hero-btn,
+#start-game-btn,
+#restart-game-btn {
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+/* Effet hover général pour les boutons */
+button:hover,
+.select-hero-btn:hover,
+#start-game-btn:hover,
+#restart-game-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Boutons de démarrage et redémarrage */
+#start-game-btn,
+#restart-game-btn {
+  background: linear-gradient(135deg, #f1c40f 0%, #e67e22 100%);
+  color: #000;
+  font-size: 1.2rem;
+  padding: 1rem 2rem;
+}
+
+/* Boutons de sélection de héros */
+.select-hero-btn {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  width: 100%;
+}
+
+/* Style spécial pour le joueur 2 */
+#hero-selection-2 .select-hero-btn {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+/* Boutons d'action avec styles spécifiques */
+.action-btn {
+  width: 100%;
+  min-width: 150px;
+  padding: 1rem 0.5rem;
+  font-size: 1rem;
+  text-align: center;
+  white-space: nowrap;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Styles par défaut */
+  background-color: #444;
+  color: white;
+  margin: 5px 0;
+}
+
+/* Effet hover sur les boutons d'action */
+.action-btn:hover {
+  background-color: #555;
+  transform: scale(1.05);
+}
+
+/* État désactivé des boutons */
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Boutons d'action spécialisés avec couleurs thématiques */
+#move-btn {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+}
+
+#fast-attack-btn {
+  background: linear-gradient(135deg, #e67e22, #d35400);
+}
+
+#heavy-attack-btn {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+#special-btn {
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+#defend-btn {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+#dodge-btn {
+  background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+}
+
+/* Bouton de fin de tour (s'étend sur 2 colonnes) */
+.end-turn-btn {
+  grid-column: span 2;
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+/* ========================================
+   DÉ D'ACTION (INTERFACE FLOTTANTE)
+   ======================================== */
+
+/* Conteneur du dé flottant */
+.action-dice-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+/* Cercle du dé d'action */
+.action-dice-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Effet hover sur le dé */
+.action-dice-circle:hover {
+  transform: scale(1.1);
+}
+
+/* Icône du dé */
+.action-dice-icon {
+  font-size: 24px;
+  color: #333;
+}
+
+/* Résultat du dé (bulle) */
+.action-dice-result {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgb(0, 0, 0);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 1px 3px rgb(0, 0, 0);
+  display: none;
+}
+
+/* Conteneur de dé masqué par défaut */
+#dice-container {
+  display: none;
+}
+
+/* ========================================
+   STATISTIQUES DES JOUEURS
+   ======================================== */
+
+/* Conteneur des statistiques */
+.player-stats-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+  padding: 15px;
+  background: #2c3e50;
+  border-radius: 10px;
+  color: white;
+}
+
+/* Carte de statistiques individuelles */
+.player-stat-card {
+  background: #34495e;
+  padding: 15px;
+  border-radius: 8px;
+  width: 45%;
+  position: relative;
+}
+
+/* Titre des cartes de stats */
+.player-stat-card h3 {
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Valeurs des statistiques */
+.stat-value {
+  font-weight: bold;
+  color: #f1c40f;
+}
+
+/* Indicateur de bonus */
+.bonus-indicator {
+  margin-left: 10px;
+  font-size: 0.8em;
+  padding: 2px 5px;
+  border-radius: 3px;
+  background: #27ae60;
+  display: inline-block;
+}
+
+/* ========================================
+   AFFICHAGE DU GAGNANT
+   ======================================== */
+
+/* Modal de victoire */
+.winner-display {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.9);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  z-index: 1000;
+  display: none;
+  border: 3px solid gold;
+}
+
+/* Titre de victoire */
+.winner-display h2 {
+  color: gold;
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+/* Bouton de redémarrage dans la modal */
+#restart-game-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#restart-game-btn:hover {
+  background: #c0392b;
+}
+
+/* ========================================
+   INFORMATIONS DE JEU ET LOGS
+   ======================================== */
+
+/* Conteneur des informations de jeu */
+#game-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+/* Boîtes d'information */
+.info-box {
+  flex: 1;
+  min-width: 250px;
+  padding: 1.5rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  border: 2px solid #bdc3c7;
+}
+
+/* Titres des boîtes d'info */
+.info-box h3 {
+  color: #f1c40f;
+  margin-top: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #bdc3c7;
+}
+
+/* Zone de log de combat */
+#combat-log {
+  min-height: 150px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Entrées du log */
+.log-entries {
+  font-size: 0.9rem;
+}
+
+.log-entries p {
+  margin: 0.5rem 0;
+  padding: 0.3rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+/* Animation d'attaque */
+@keyframes attackAnimation {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.attacking {
+  animation: attackAnimation 0.3s;
+}
+
+/* Animation d'esquive */
+@keyframes dodgeAnimation {
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-10px);
+  }
+
+  50% {
+    transform: translateX(10px);
+  }
+
+  75% {
+    transform: translateX(-10px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.dodging {
+  animation: dodgeAnimation 0.4s;
+}
+
+/* Animation de dégâts */
+@keyframes damageAnimation {
+  0% {
+    background-color: inherit;
+  }
+
+  50% {
+    background-color: #ff0000;
+  }
+
+  100% {
+    background-color: inherit;
+  }
+}
+
+.taking-damage {
+  animation: damageAnimation 0.5s;
+}
+
+/* Animation de pulsation pour les bonus */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+/* Tablettes et écrans moyens */
+@media (max-width: 768px) {
+  .screen {
+    padding: 1rem;
+    width: 95%;
+  }
+
+  .hero-options {
+    flex-direction: column;
+  }
+
+  .hero-option {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .action-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    min-width: 120px;
+  }
+
+  #game-info {
+    flex-direction: column;
+  }
+
+  .info-box {
+    width: 100%;
+  }
+}
+
+/* Smartphones */
+@media (max-width: 480px) {
+  #welcome-screen h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-preview {
+    width: 80px;
+    height: 80px;
+  }
+
+  .action-group {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+
+  .action-btn {
+    width: 100%;
+  }
+}
